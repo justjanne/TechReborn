@@ -65,7 +65,7 @@ public class Core {
 		// Recipes
         StopWatch watch = new StopWatch();
         watch.start();
-		ModRecipes.init();
+		//ModRecipes.init();
         LogHelper.all(watch + " : main recipes");
         watch.stop();
 		//Client only init, needs to be done before parts system
