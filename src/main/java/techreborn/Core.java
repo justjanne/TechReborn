@@ -93,7 +93,7 @@ public class Core {
 		// Has to be done here as Buildcraft registers there recipes late
         StopWatch watch = new StopWatch();
         watch.start();
-		RecipeManager.init();
+//		RecipeManager.init();
         LogHelper.all(watch + " : main recipes");
         watch.stop();
         //Has to be done after the recipes have been added
