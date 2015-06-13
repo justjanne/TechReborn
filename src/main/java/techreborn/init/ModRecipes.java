@@ -4,6 +4,7 @@ import ic2.api.item.IC2Items;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import techreborn.api.BlastFurnaceRecipe;
@@ -37,6 +38,7 @@ public class ModRecipes {
         addPlateCuttingMachineRecipes();
 		addUUrecipes();
 		addHammerRecipes();
+        addIndustrialSawmillRecipes();
 	}
 
 	public static void addShappedRecipes() {
@@ -151,7 +153,6 @@ public class ModRecipes {
 
 		RecipeHandler.addRecipe(new AssemblingMachineRecipe(new ItemStack(Items.coal), new ItemStack(Blocks.sand), new ItemStack(Items.diamond), 120, 5));
 		RecipeHandler.addRecipe(new LatheRecipe(new ItemStack(Items.coal), new ItemStack(Items.diamond), 120, 5));
-		RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Items.coal), new ItemStack(Blocks.sand), new ItemStack(Items.diamond), new ItemStack(Items.diamond), new ItemStack(Items.diamond), 120, 5));
 		RecipeHandler.addRecipe(new PlateCuttingMachineRecipe(new ItemStack(Items.coal), new ItemStack(Items.diamond), 120, 5));
 		//TODO
 		RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.coal), new ItemStack(Blocks.sand), new ItemStack(Items.diamond), 120, 5));
@@ -160,6 +161,7 @@ public class ModRecipes {
         RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 1), new ItemStack(ModItems.cells, 1, 16), null, IC2Items.getItem("iridiumOre"), new ItemStack(ModItems.smallDusts, 6, 39), new ItemStack(ModItems.dusts, 6, 58), IC2Items.getItem("cell"), 400, 5));
 
 		RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.coal), null, new ItemStack(Items.diamond), new ItemStack(Items.emerald), new ItemStack(Items.apple), new ItemStack(Items.arrow), 1, 10));
+
 		LogHelper.info("Machine Recipes Added");
 	}
 
@@ -474,6 +476,33 @@ public class ModRecipes {
 
         //Obsidian
         RecipeHandler.addRecipe(new PlateCuttingMachineRecipe(new ItemStack(Blocks.obsidian), ItemPlates.getPlateByName("obsidian", 9), 100, 4));
+    }
+
+    public static void addIndustrialSawmillRecipes() {
+        ItemStack pulpStack = OreDictionary.getOres("pulpWood").get(0);
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 0), pulpStack, null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 0), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 0), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
+
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 1), pulpStack, null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 1), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 1), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
+
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 2), pulpStack, null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 2), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 2), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
+
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 3), pulpStack, null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 3), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 3), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
+
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 4), pulpStack, null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 4), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 4), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
+
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 5), pulpStack, null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 5), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 5), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
     }
 	
 	public static void addUUrecipes() {
