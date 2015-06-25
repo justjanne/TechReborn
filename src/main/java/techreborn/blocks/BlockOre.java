@@ -54,7 +54,7 @@ public class BlockOre extends Block {
 		super(material);
 		setBlockName("techreborn.ore");
 		setCreativeTab(TechRebornCreativeTabMisc.instance);
-		setHardness(1f);
+		setHardness(2.0f);
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class BlockOre extends Block {
 		}
 
 		ArrayList<ItemStack> block = new ArrayList<ItemStack>();
-		block.add(new ItemStack(Item.getItemFromBlock(this)));
+		block.add(new ItemStack(Item.getItemFromBlock(this), 1, metadata));
 		return  block;
 	}
 		

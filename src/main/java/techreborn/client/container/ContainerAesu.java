@@ -21,6 +21,7 @@ public class ContainerAesu extends TechRebornContainer {
 
 	public int euOut;
 	public int storedEu;
+    public int euChange;
 
 	public ContainerAesu(TileAesu tileaesu,
 			EntityPlayer player)
@@ -29,8 +30,8 @@ public class ContainerAesu extends TechRebornContainer {
 		this.player = player;
 
 		// input
-		this.addSlotToContainer(new Slot(tileaesu.inventory, 0, 128, 14));
-		this.addSlotToContainer(new Slot(tileaesu.inventory, 1, 128, 50));
+		this.addSlotToContainer(new Slot(tileaesu.inventory, 0, 116, 23));
+		this.addSlotToContainer(new Slot(tileaesu.inventory, 1, 116, 59));
 
 		int i;
 
@@ -39,14 +40,14 @@ public class ContainerAesu extends TechRebornContainer {
 			for (int j = 0; j < 9; ++j)
 			{
 				this.addSlotToContainer(new Slot(player.inventory, j + i * 9
-						+ 9, 8 + j * 18, 84 + i * 18));
+						+ 9, 7 + j * 16, 84 + i * 18 + 30));
 			}
 		}
 
 		for (i = 0; i < 9; ++i)
 		{
-			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18,
-					142));
+			this.addSlotToContainer(new Slot(player.inventory, i, 7 + i * 16,
+					142 + 30));
 		}
 	}
 
@@ -61,6 +62,9 @@ public class ContainerAesu extends TechRebornContainer {
 			if(this.storedEu != tile.energy){
 				icrafting.sendProgressBarUpdate(this, 1, (int) tile.energy);
 			}
+            if(this.euChange != tile.getEuChange() && tile.getEuChange() != -1){
+                icrafting.sendProgressBarUpdate(this, 2, (int) tile.getEuChange());
+            }
 		}
 	}
 
@@ -69,6 +73,7 @@ public class ContainerAesu extends TechRebornContainer {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, tile.output);
 		crafting.sendProgressBarUpdate(this, 1, (int) tile.energy);
+        crafting.sendProgressBarUpdate(this, 2 , (int) tile.getEuChange());
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -78,7 +83,9 @@ public class ContainerAesu extends TechRebornContainer {
 			this.euOut = value;
 		} else if(id == 1){
 			this.storedEu = value;
-		}
+		} else if(id == 2){
+            this.euChange = value;
+        }
 	}
 
 }

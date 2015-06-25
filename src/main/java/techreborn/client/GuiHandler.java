@@ -1,57 +1,14 @@
 package techreborn.client;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import techreborn.client.container.ContainerAesu;
-import techreborn.client.container.ContainerAlloyFurnace;
-import techreborn.client.container.ContainerAlloySmelter;
-import techreborn.client.container.ContainerAssemblingMachine;
-import techreborn.client.container.ContainerBlastFurnace;
-import techreborn.client.container.ContainerCentrifuge;
-import techreborn.client.container.ContainerChemicalReactor;
-import techreborn.client.container.ContainerChunkloader;
-import techreborn.client.container.ContainerDieselGenerator;
-import techreborn.client.container.ContainerGrinder;
-import techreborn.client.container.ContainerImplosionCompressor;
-import techreborn.client.container.ContainerIndustrialElectrolyzer;
-import techreborn.client.container.ContainerIndustrialSawmill;
-import techreborn.client.container.ContainerLathe;
-import techreborn.client.container.ContainerMatterFabricator;
-import techreborn.client.container.ContainerPlateCuttingMachine;
-import techreborn.client.container.ContainerQuantumChest;
-import techreborn.client.container.ContainerQuantumTank;
-import techreborn.client.container.ContainerDigitalChest;
-import techreborn.client.container.ContainerRollingMachine;
-import techreborn.client.container.ContainerThermalGenerator;
-import techreborn.client.container.ContainerSemifluidGenerator;
-import techreborn.client.container.ContainerGasTurbine;
-import techreborn.client.gui.GuiAesu;
-import techreborn.client.gui.GuiAlloyFurnace;
-import techreborn.client.gui.GuiAlloySmelter;
-import techreborn.client.gui.GuiAssemblingMachine;
-import techreborn.client.gui.GuiBlastFurnace;
-import techreborn.client.gui.GuiCentrifuge;
-import techreborn.client.gui.GuiChemicalReactor;
-import techreborn.client.gui.GuiChunkLoader;
-import techreborn.client.gui.GuiDieselGenerator;
-import techreborn.client.gui.GuiGrinder;
-import techreborn.client.gui.GuiImplosionCompressor;
-import techreborn.client.gui.GuiIndustrialElectrolyzer;
-import techreborn.client.gui.GuiIndustrialSawmill;
-import techreborn.client.gui.GuiLathe;
-import techreborn.client.gui.GuiMatterFabricator;
-import techreborn.client.gui.GuiPlateCuttingMachine;
-import techreborn.client.gui.GuiQuantumChest;
-import techreborn.client.gui.GuiQuantumTank;
-import techreborn.client.gui.GuiDigitalChest;
-import techreborn.client.gui.GuiRollingMachine;
-import techreborn.client.gui.GuiThermalGenerator;
-import techreborn.client.gui.GuiSemifluidGenerator;
-import techreborn.client.gui.GuiGasTurbine;
+import techreborn.client.container.*;
+import techreborn.client.gui.*;
 import techreborn.pda.GuiPda;
 import techreborn.tiles.*;
 import cpw.mods.fml.common.network.IGuiHandler;
+import techreborn.tiles.idsu.TileIDSU;
+import techreborn.tiles.lesu.TileLesu;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -79,7 +36,10 @@ public class GuiHandler implements IGuiHandler {
 	public static final int semifluidGeneratorID = 21;
 	public static final int gasTurbineID = 22;
 	public static final int digitalChestID = 23;
-
+	public static final int destructoPackID = 25;
+    public static final int lesuID = 26;
+	public static final int idsuID = 27;
+	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z)
@@ -179,6 +139,12 @@ public class GuiHandler implements IGuiHandler {
 		} else if (ID == pdaID)
 		{
 			return null;
+		} else if (ID == destructoPackID) {
+			return new ContainerDestructoPack(player);
+		} else if (ID == lesuID) {
+            return new ContainerLesu((TileLesu) world.getTileEntity(x, y, z), player);
+        } else if (ID == idsuID) {
+			return new ContainerIDSU((TileIDSU) world.getTileEntity(x, y, z), player);
 		}
 
 		return null;
@@ -282,7 +248,13 @@ public class GuiHandler implements IGuiHandler {
 					(TileChemicalReactor) world.getTileEntity(x, y, z));	
 		} else if (ID == pdaID)
 		{
-			return new GuiPda(player);
+			return new GuiPda(player, new ContainerPda(player));
+		} else if (ID == destructoPackID) {
+			return new GuiDestructoPack(new ContainerDestructoPack(player));
+		} else if (ID == lesuID) {
+            return new GuiLesu(player, (TileLesu)world.getTileEntity(x, y, z));
+        } else if (ID == idsuID) {
+			return new GuiIDSU(player, (TileIDSU)world.getTileEntity(x, y, z));
 		}
 		return null;
 	}

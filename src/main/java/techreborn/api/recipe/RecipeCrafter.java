@@ -106,6 +106,8 @@ public class RecipeCrafter {
      */
     double powerMultiplier = 1;
 
+	int ticksSinceLastChange;
+
     /**
      * Call this on the tile tick
      */
@@ -113,7 +115,12 @@ public class RecipeCrafter {
         if(parentTile.getWorldObj().isRemote){
             return;
         }
-        if (currentRecipe == null) {//It will now look for new recipes.
+		ticksSinceLastChange ++;
+		if(ticksSinceLastChange == 20){//Force a has chanced every second
+			inventory.hasChanged = true;
+			ticksSinceLastChange = 0;
+		}
+        if (currentRecipe == null && inventory.hasChanged) {//It will now look for new recipes.
             currentTickTime = 0;
             for (IBaseRecipeType recipe : RecipeHandler.getRecipeClassFromName(recipeName)) {
                 if (recipe.canCraft(parentTile) && hasAllInputs(recipe)) {//This checks to see if it has all of the inputs
@@ -121,24 +128,23 @@ public class RecipeCrafter {
                     for (int i = 0; i < recipe.getOutputsSize(); i++) {//This checks to see if it can fit all of the outputs
                         if (!canFitStack(recipe.getOutput(i), outputSlots[i], recipe.useOreDic())) {
                             canGiveInvAll = false;
-                            break;
+                            return;
                         }
                     }
                     if (canGiveInvAll) {
                         setCurrentRecipe(recipe);//Sets the current recipe then syncs
                         this.currentNeededTicks = (int)(currentRecipe.tickTime() * (1.0 - speedMultiplier));
-                        this.currentTickTime = 0;
+                        this.currentTickTime = -1;
 						syncIsActive();
                     } else {
-                        this.currentTickTime = -1;
-                        syncIsActive();
+                        this.currentTickTime = -0;
                     }
                 }
             }
         } else {
-            if (!hasAllInputs()) {//If it doesn't have all the inputs reset
+            if (inventory.hasChanged && !hasAllInputs()) {//If it doesn't have all the inputs reset
                 currentRecipe = null;
-                currentTickTime = -1;
+                currentTickTime = 0;
 				syncIsActive();
             }
             if (currentRecipe != null && currentTickTime >= currentNeededTicks) {//If it has reached the recipe tick time
@@ -167,6 +173,9 @@ public class RecipeCrafter {
                 }
             }
         }
+		if(inventory.hasChanged){
+			inventory.hasChanged = false;
+		}
     }
 
     public boolean hasAllInputs() {
@@ -274,7 +283,7 @@ public class RecipeCrafter {
 
 
     private boolean isActiveServer() {
-        return currentRecipe != null && energy.getEnergyStored() >= currentRecipe.euPerTick();
+        return currentRecipe != null && energy.getEnergyStored() >= currentRecipe.euPerTick() && currentTickTime != -1;
     }
 
     public boolean isActive() {

@@ -1,5 +1,6 @@
 package techreborn.init;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.IC2Items;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -7,23 +8,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
-import techreborn.api.BlastFurnaceRecipe;
-import techreborn.api.TechRebornAPI;
 import techreborn.api.recipe.RecipeHandler;
 import techreborn.api.recipe.machines.AlloySmelterRecipe;
-import techreborn.api.recipe.machines.AssemblingMachineRecipe;
-import techreborn.api.recipe.machines.CentrifugeRecipe;
-import techreborn.api.recipe.machines.ChemicalReactorRecipe;
-import techreborn.api.recipe.machines.GrinderRecipe;
-import techreborn.api.recipe.machines.ImplosionCompressorRecipe;
 import techreborn.api.recipe.machines.IndustrialSawmillRecipe;
 import techreborn.api.recipe.machines.LatheRecipe;
 import techreborn.api.recipe.machines.PlateCuttingMachineRecipe;
 import techreborn.config.ConfigTechReborn;
-import techreborn.items.*;
+import techreborn.items.ItemDusts;
+import techreborn.items.ItemDustsSmall;
+import techreborn.items.ItemIngots;
+import techreborn.items.ItemParts;
+import techreborn.items.ItemPlates;
+import techreborn.items.ItemRods;
 import techreborn.util.CraftingHelper;
 import techreborn.util.LogHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModRecipes {
 	public static ConfigTechReborn config;
@@ -32,7 +30,6 @@ public class ModRecipes {
 		addShaplessRecipes();
 		addShappedRecipes();
 		addSmeltingRecipes();
-		addMachineRecipes();
         addAlloySmelterRecipes();
         addLatheRecipes();
         addPlateCuttingMachineRecipes();
@@ -127,50 +124,25 @@ public class ModRecipes {
 		CraftingHelper.addShapelessOreRecipe(new ItemStack(ModItems.ingots, 9, 14), "blockPlatinum");
 		CraftingHelper.addShapelessOreRecipe(new ItemStack(ModItems.ingots, 9, 15), "blockNickel");
 		CraftingHelper.addShapelessOreRecipe(new ItemStack(ModItems.ingots, 9, 16), "blockInvar");
-		CraftingHelper.addShapelessOreRecipe(new ItemStack(ModItems.rockCutter, 1, 27), Items.apple);
 
 		LogHelper.info("Shapless Recipes Added");
 	}
 
 	public static void addSmeltingRecipes() {
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 27), new ItemStack(Items.iron_ingot), 1F);
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 23), new ItemStack(Items.gold_ingot), 1F);
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 14), IC2Items.getItem("copperIngot"), 1F);
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 51), IC2Items.getItem("tinIngot"), 1F);
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 7), IC2Items.getItem("bronzeIngot"), 1F);
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 29), IC2Items.getItem("leadIngot"), 1F);
-		GameRegistry.addSmelting(new ItemStack(ModItems.dusts, 1, 45), IC2Items.getItem("silverIngot"), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("iron", 1), new ItemStack(Items.iron_ingot), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("gold", 1), new ItemStack(Items.gold_ingot), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("copper", 1), IC2Items.getItem("copperIngot"), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("tin", 1), IC2Items.getItem("tinIngot"), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("bronze", 1), IC2Items.getItem("bronzeIngot"), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("lead", 1), IC2Items.getItem("leadIngot"), 1F);
+		GameRegistry.addSmelting(ItemDusts.getDustByName("silver", 1), IC2Items.getItem("silverIngot"), 1F);
 
 		LogHelper.info("Smelting Recipes Added");
-	}
-
-	public static void addMachineRecipes() {
-
-		TechRebornAPI.addRollingMachinceRecipe(new ItemStack(Blocks.furnace, 4), "ccc", "c c", "ccc", 'c', Blocks.cobblestone);
-		TechRebornAPI.registerBlastFurnaceRecipe(new BlastFurnaceRecipe(new ItemStack(Items.apple), new ItemStack(Items.ender_pearl), new ItemStack(Items.golden_apple), new ItemStack(Items.diamond), 120, 1000));
-
-		RecipeHandler.addRecipe(new ImplosionCompressorRecipe(new ItemStack(Blocks.netherrack, 4), new ItemStack(Blocks.diamond_block, 1), new ItemStack(ModItems.bucketTritium), null, 120, 5));
-
-		RecipeHandler.addRecipe(new AssemblingMachineRecipe(new ItemStack(Items.coal), new ItemStack(Blocks.sand), new ItemStack(Items.diamond), 120, 5));
-		RecipeHandler.addRecipe(new LatheRecipe(new ItemStack(Items.coal), new ItemStack(Items.diamond), 120, 5));
-		RecipeHandler.addRecipe(new PlateCuttingMachineRecipe(new ItemStack(Items.coal), new ItemStack(Items.diamond), 120, 5));
-		//TODO
-		RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.coal), new ItemStack(Blocks.sand), new ItemStack(Items.diamond), 120, 5));
-
-		RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 1), null, new FluidStack(ModFluids.fluidMercury, 500), IC2Items.getItem("iridiumOre"), new ItemStack(ModItems.smallDusts, 6, 39), new ItemStack(ModItems.dusts, 6, 58), null, 400, 5));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 1), new ItemStack(ModItems.cells, 1, 16), null, IC2Items.getItem("iridiumOre"), new ItemStack(ModItems.smallDusts, 6, 39), new ItemStack(ModItems.dusts, 6, 58), IC2Items.getItem("cell"), 400, 5));
-
-		RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.coal), null, new ItemStack(Items.diamond), new ItemStack(Items.emerald), new ItemStack(Items.apple), new ItemStack(Items.arrow), 1, 10));
-
-		LogHelper.info("Machine Recipes Added");
 	}
 
 	public static void addHammerRecipes(){
 		ItemStack hammerIron = new ItemStack(ModItems.hammerIron, 1, OreDictionary.WILDCARD_VALUE);
 		ItemStack hammerDiamond = new ItemStack(ModItems.hammerDiamond, 1, OreDictionary.WILDCARD_VALUE);
-		
-		// :( I cant do this 
-//	    List<ItemStack> anyhammer = Arrays.asList(hammerIron, hammerDiamond);
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.plate, 1, 13), hammerIron, new ItemStack(Items.iron_ingot));
 
@@ -481,27 +453,27 @@ public class ModRecipes {
     public static void addIndustrialSawmillRecipes() {
         ItemStack pulpStack = OreDictionary.getOres("pulpWood").get(0);
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 0), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 0), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 0), pulpStack, IC2Items.getItem("cell"), 200, 30, false));
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 0), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
 
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 1), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 1), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 1), pulpStack, IC2Items.getItem("cell"), 200, 30, false));
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 1), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
 
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 2), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 2), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 2), pulpStack, IC2Items.getItem("cell"), 200, 30, false));
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 2), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
 
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 3), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 3), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 3), pulpStack, IC2Items.getItem("cell"), 200, 30, false));
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 3), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
 
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 4), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 4), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 4), pulpStack, IC2Items.getItem("cell"), 200, 30, false));
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 4), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
 
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 5), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 5), pulpStack, IC2Items.getItem("emptyCell"), 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), IC2Items.getItem("waterCell"), null, new ItemStack(Blocks.planks, 6, 5), pulpStack, IC2Items.getItem("cell"), 200, 30, false));
         RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 5), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
     }
 	

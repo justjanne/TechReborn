@@ -68,6 +68,10 @@ public class ConfigTechReborn {
     public static int CentrifugeInputTick;
     public static int DragoneggsiphonerOutput;
     public static int heatGeneratorOutput;
+    public static int aveargeEuOutTickTime;
+	public static int extraOutputPerLesuBlock;
+	public static int baseLesuOutput;
+	public static int lesuStoragePerBlock;
     // Charge
     public static int AdvancedDrillCharge;
     public static int LapotronPackCharge;
@@ -135,6 +139,9 @@ public class ConfigTechReborn {
     public static boolean UUrecipesTungstenDust;
     public static boolean UUrecipesTitaniumDust;
     public static boolean UUrecipesAluminumDust;
+    
+    // Client
+    public static boolean ShowChargeHud;
 
     public static Configuration config;
 
@@ -559,6 +566,30 @@ public class ConfigTechReborn {
                         StatCollector
                                 .translateToLocal("config.techreborn.thermalGeneratorMaxCharge.tooltip"))
                 .getInt();
+        aveargeEuOutTickTime = config
+                .get(CATEGORY_POWER,
+                        StatCollector
+                                .translateToLocal("config.techreborn.aveargeEuOutTickTime"),
+                        100,
+                        StatCollector
+                                .translateToLocal("config.techreborn.aveargeEuOutTickTime.tooltip"))
+                .getInt();
+		lesuStoragePerBlock = config.get(CATEGORY_POWER,
+					StatCollector.translateToLocal("config.techreborn.lesuStoragePerBlock"),
+					1000000,
+					StatCollector.translateToLocal("config.techreborn.lesuStoragePerBlock.tooltip"))
+				.getInt();
+		baseLesuOutput = config.get(CATEGORY_POWER,
+					StatCollector.translateToLocal("config.techreborn.baseLesuOutput"),
+					16,
+					StatCollector.translateToLocal("config.techreborn.baseLesuOutput.tooltip"))
+				.getInt();
+		extraOutputPerLesuBlock = config.get(CATEGORY_POWER,
+					StatCollector.translateToLocal("config.techreborn.extraOutputPerLesuBlock"),
+					8,
+					StatCollector.translateToLocal("config.techreborn.extraOutputPerLesuBlock.tooltip"))
+				.getInt();
+
 
         // Teir
         AdvancedDrillTier = config
@@ -1025,6 +1056,15 @@ public class ConfigTechReborn {
                         true,
                         StatCollector
                                 .translateToLocal("config.techreborn.allow.UUrecipesAluminumDust.tooltip"))
+                .getBoolean(true);
+        
+        ShowChargeHud = config
+                .get(CATEGORY_POWER,
+                        StatCollector
+                                .translateToLocal("config.techreborn.showChargehud"),
+                        true,
+                        StatCollector
+                                .translateToLocal("config.techreborn.showChargehud.tooltip"))
                 .getBoolean(true);
 
 

@@ -1,6 +1,5 @@
 package techreborn.partSystem.parts;
 
-import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyTile;
@@ -12,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -144,6 +145,7 @@ public class CablePart extends ModPart implements IEnergyConductor {
         return "Cable." + getNameFromType(type);
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public String getItemTextureName() {
         return IC2Items.getItem(getTextureNameFromType(type)).getIconIndex().getIconName();

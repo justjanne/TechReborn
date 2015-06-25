@@ -26,8 +26,8 @@ public class GuiAesu extends GuiContainer {
 			TileAesu tileaesu)
 	{
 		super(new ContainerAesu(tileaesu, player));
-		this.xSize = 176;
-		this.ySize = 167;
+		this.xSize = 156;
+		this.ySize = 200;
 		aesu = tileaesu;
 		this.containerAesu  = (ContainerAesu) this.inventorySlots;
 	}
@@ -38,10 +38,10 @@ public class GuiAesu extends GuiContainer {
 		this.buttonList.clear();
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
-		this.buttonList.add(new GuiHiddenButton(0, k + 106, l + 4, 18, 18, ""));
-		this.buttonList.add(new GuiHiddenButton(1, k + 106, l + 4 + 18, 18, 18, ""));
-		this.buttonList.add(new GuiHiddenButton(2, k + 106, l + 4 + (18*2), 18, 18, ""));
-		this.buttonList.add(new GuiHiddenButton(3, k + 106, l + 4 + (18*3), 18, 18, ""));
+		this.buttonList.add(new GuiButton(0, k + 96, l + 8, 18, 20, "++"));
+		this.buttonList.add(new GuiButton(1, k + 96, l + 8 + 22, 18, 20, "+"));
+		this.buttonList.add(new GuiButton(2, k + 96, l + 8 + (22*2), 18, 20, "-"));
+		this.buttonList.add(new GuiButton(3, k + 96, l + 8 + (22*3), 18, 20, "--"));
 	}
 
 	@Override
@@ -57,9 +57,10 @@ public class GuiAesu extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_,
 			int p_146979_2_)
 	{
-		this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.techreborn.aesu.name"), 40, 6, Color.WHITE.getRGB());
-		this.fontRendererObj.drawString(containerAesu.euOut + " eu/tick", 10, 20, Color.WHITE.getRGB());
-		this.fontRendererObj.drawString(containerAesu.storedEu + " eu", 10, 30, Color.WHITE.getRGB());
+		this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.techreborn.aesu.name"), 40, 10, Color.WHITE.getRGB());
+		this.fontRendererObj.drawString((int)containerAesu.euOut + " eu/tick", 10, 20, Color.WHITE.getRGB());
+		this.fontRendererObj.drawString((int)containerAesu.storedEu + " eu", 10, 30, Color.WHITE.getRGB());
+        this.fontRendererObj.drawString((int)containerAesu.euChange + " eu change", 10, 40, Color.WHITE.getRGB());
 	}
 
 	@Override
