@@ -163,4 +163,8 @@ public class TileAesu extends EUStorageTile implements IWrenchable {
     }
 
 
+	@Override
+	public int getMaxEnergyAmount() {
+		return MAX_OUTPUT;
+	}
 }

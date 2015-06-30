@@ -80,4 +80,9 @@ public class TileLesu extends EUStorageTile implements IWrenchable {
         }
         return (euChange / ticks);
     }
+
+	@Override
+	public int getMaxEnergyAmount() {
+		return (5000 * ConfigTechReborn.extraOutputPerLesuBlock) + ConfigTechReborn.baseLesuOutput;
+	}
 }

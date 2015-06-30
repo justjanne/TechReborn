@@ -5,6 +5,7 @@ import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.IEnergySourceInfo;
 import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.api.tile.IEnergyStorage;
 import ic2.core.IC2;
@@ -19,7 +20,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class EUStorageTile extends TileEntityElectricBlock implements IEnergySink, IEnergySource, INetworkClientTileEntityEventListener, IEnergyStorage {
+public abstract class EUStorageTile extends TileEntityElectricBlock implements IEnergySink, IEnergySourceInfo, INetworkClientTileEntityEventListener, IEnergyStorage {
     public int tier;
     public int output;
     public double maxStorage;
