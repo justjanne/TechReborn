@@ -155,7 +155,7 @@ public class TileAesu extends EUStorageTile implements IWrenchable {
     }
 
     public void readFromNBTWithoutCoords(NBTTagCompound nbttagcompound) {
-        this.energy = Util.limit(nbttagcompound.getDouble("energy"), 0.0D, (double) this.maxStorage + EnergyNet.instance.getPowerFromTier(this.tier));
+        this.energy = nbttagcompound.getDouble("energy");
         this.redstoneMode = nbttagcompound.getByte("redstoneMode");
         this.euChange = nbttagcompound.getDouble("euChange");
         this.euLastTick = nbttagcompound.getDouble("euLastTick");

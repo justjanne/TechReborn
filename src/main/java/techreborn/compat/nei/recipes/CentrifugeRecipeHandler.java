@@ -1,11 +1,13 @@
 package techreborn.compat.nei.recipes;
 
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import techreborn.api.recipe.IBaseRecipeType;
 import techreborn.client.gui.GuiCentrifuge;
 import techreborn.util.ItemUtils;
 
+import java.awt.Rectangle;
 import java.util.List;
 
 public class CentrifugeRecipeHandler extends GenericRecipeHander implements INeiBaseRecipe {
@@ -60,5 +62,13 @@ public class CentrifugeRecipeHandler extends GenericRecipeHander implements INei
 	@Override
 	public INeiBaseRecipe getNeiBaseRecipe() {
 		return this;
+	}
+	
+	@Override
+	public void loadTransferRects() {
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(64, 25, 10, 10), getNeiBaseRecipe().getRecipeName(), new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(94, 25, 10, 10), getNeiBaseRecipe().getRecipeName(), new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(78, 15, 10, 10), getNeiBaseRecipe().getRecipeName(), new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(78, 40, 10, 10), getNeiBaseRecipe().getRecipeName(), new Object[0]));
 	}
 }

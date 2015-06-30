@@ -8,12 +8,7 @@ import ic2.api.energy.tile.IEnergySource;
 import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.api.tile.IEnergyStorage;
 import ic2.core.IC2;
-import ic2.core.block.TileEntityInventory;
-import ic2.core.block.invslot.InvSlot;
-import ic2.core.block.invslot.InvSlotCharge;
-import ic2.core.block.invslot.InvSlotDischarge;
-import ic2.core.init.MainConfig;
-import ic2.core.util.ConfigUtil;
+import ic2.core.block.wiring.TileEntityElectricBlock;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +19,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class EUStorageTile extends TileEntityInventory implements IEnergySink, IEnergySource, INetworkClientTileEntityEventListener, IEnergyStorage {
+public abstract class EUStorageTile extends TileEntityElectricBlock implements IEnergySink, IEnergySource, INetworkClientTileEntityEventListener, IEnergyStorage {
     public int tier;
     public int output;
     public double maxStorage;
@@ -37,7 +32,8 @@ public abstract class EUStorageTile extends TileEntityInventory implements IEner
     public boolean addedToEnergyNet = false;
 
     public EUStorageTile(int tier1, int output1, int maxStorage1) {
-        this.tier = tier1;
+		super(tier1, output1, maxStorage1);
+		this.tier = tier1;
         this.output = output1;
         this.maxStorage = maxStorage1;
     }
@@ -53,7 +49,7 @@ public abstract class EUStorageTile extends TileEntityInventory implements IEner
 
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        this.energy = Util.limit(nbttagcompound.getDouble("energy"), 0.0D, (double) this.maxStorage + EnergyNet.instance.getPowerFromTier(this.tier));
+        this.energy = nbttagcompound.getDouble("energy");
         this.redstoneMode = nbttagcompound.getByte("redstoneMode");
     }
 
@@ -205,7 +201,7 @@ public abstract class EUStorageTile extends TileEntityInventory implements IEner
             this.redstoneMode = 0;
         }
 
-        IC2.platform.messagePlayer(player, this.getredstoneMode(), new Object[0]);
+        IC2.platform.messagePlayer(player, this.getredstoneMode());
     }
 
     public String getredstoneMode() {
@@ -214,7 +210,7 @@ public abstract class EUStorageTile extends TileEntityInventory implements IEner
 
     public ItemStack getWrenchDrop(EntityPlayer entityPlayer) {
         ItemStack ret = super.getWrenchDrop(entityPlayer);
-        float energyRetainedInStorageBlockDrops = ConfigUtil.getFloat(MainConfig.get(), "balance/energyRetainedInStorageBlockDrops");
+        float energyRetainedInStorageBlockDrops = 1F;
         if(energyRetainedInStorageBlockDrops > 0.0F) {
             NBTTagCompound nbttagcompound = StackUtil.getOrCreateNbtData(ret);
             nbttagcompound.setDouble("energy", this.energy * (double)energyRetainedInStorageBlockDrops);

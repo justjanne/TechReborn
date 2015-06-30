@@ -234,7 +234,7 @@ public class TileIDSU extends TileEntityBlock implements IEnergySink, IEnergySou
 			this.redstoneMode = 0;
 		}
 
-		IC2.platform.messagePlayer(player, this.getredstoneMode(), new Object[0]);
+		IC2.platform.messagePlayer(player, this.getredstoneMode());
 	}
 
 	public String getredstoneMode() {

@@ -1,9 +1,11 @@
 package techreborn.items;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -13,14 +15,22 @@ import techreborn.init.ModItems;
 public class ItemDusts extends ItemTR {
 	public static ItemStack getDustByName(String name, int count)
 	{
-		int index = -1;
 		for (int i = 0; i < types.length; i++) {
-			if (types[i].equals(name)) {
-				index = i;
-				break;
+			if (types[i].equalsIgnoreCase(name)) {
+				return new ItemStack(ModItems.dusts, count, i);
 			}
 		}
-		return new ItemStack(ModItems.dusts, count, index);
+
+		if (name.equalsIgnoreCase("glowstone"))	{
+			return new ItemStack(Items.glowstone_dust, count);
+		}
+		if (name.equalsIgnoreCase("redstone")) {
+			return new ItemStack(Items.redstone, count);
+		}
+		if (name.equalsIgnoreCase("gunpowder")) {
+			return new ItemStack(Items.gunpowder, count);
+		}
+		throw new InvalidParameterException("The dust " + name + " could not be found.");
 	}
 	
 	public static ItemStack getDustByName(String name)
@@ -41,9 +51,9 @@ public class ItemDusts extends ItemTR {
 			"obsidian", "osmium", "peridot", "phosphorous", "platinum", "potassiumFeldspar", 
 			"pyrite", "pyrope", "redGarnet", "redrock", "ruby", "saltpeter",
 			"sapphire", "sawDust", "silicon", "silver", "sodalite", "spessartine", "sphalerite",
-			"steel", "sulfur", "tellurium", "teslatite", "tetrahedrite", "tin",
+			"steel", "sulfur", "tellurium", "teslatite",  "tetrahedrite", "tin",
 			"titanium", "tungsten", "uvarovite", "vinteum", "voidstone", "yellowGarnet",
-			"zinc" };
+			"zinc", "greenSapphire" };
 
 	private IIcon[] textures;
 

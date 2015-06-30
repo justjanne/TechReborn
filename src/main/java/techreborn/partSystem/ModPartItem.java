@@ -26,7 +26,6 @@ public class ModPartItem extends Item {
     @Override
     public boolean onItemUse(ItemStack item, EntityPlayer player, World world,
                              int x, int y, int z, int face, float x_, float y_, float z_) {
-        System.out.println(ModPartUtils.hasPart(world, x, y, z, modPart.getName()));
         ForgeDirection dir = ForgeDirection.getOrientation(face);
         if(ModPartUtils.hasPart(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, modPart.getName())){
             x = x + dir.offsetX;
@@ -40,12 +39,14 @@ public class ModPartItem extends Item {
             try {
 				if(modPart instanceof CablePart){
 					if (ModPartRegistry.masterProvider.placePart(item, player, world, x, y, z, face, x_, y_, z_, modPart.getClass().getDeclaredConstructor(int.class).newInstance(((CablePart) modPart).type))) {
+						player.swingItem();
 						return true;
 					}
 				}else{
 					if (ModPartRegistry.masterProvider.placePart(item, player,
 							world, x, y, z, face, x_, y_, z_, modPart.getClass()
 									.newInstance())) {
+						player.swingItem();
 						return true;
 					}
 				}
@@ -65,7 +66,8 @@ public class ModPartItem extends Item {
                     if(modPart instanceof CablePart){
                         try {
                             if (partProvider.placePart(item, player, world, x, y, z, face, x_, y_, z_, modPart.getClass().getDeclaredConstructor(int.class).newInstance(((CablePart) modPart).type))) {
-                                return true;
+								player.swingItem();
+								return true;
                             }
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();
@@ -74,7 +76,8 @@ public class ModPartItem extends Item {
                         }
                     } else {
                         if (partProvider.placePart(item, player, world, x, y, z, face, x_, y_, z_, modPart.getClass().newInstance())) {
-                            return true;
+							player.swingItem();
+							return true;
                         }
                     }
 

@@ -2,6 +2,7 @@ package techreborn.compat.nei.recipes;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 //import ic2.core.util.DrawUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -12,7 +13,10 @@ import techreborn.api.recipe.machines.GrinderRecipe;
 import techreborn.client.gui.GuiGrinder;
 import techreborn.util.ItemUtils;
 
+import java.awt.Rectangle;
 import java.util.List;
+
+import org.lwjgl.opengl.GL11;
 
 public class GrinderRecipeHandler extends GenericRecipeHander implements INeiBaseRecipe {
 	@Override
@@ -69,6 +73,12 @@ public class GrinderRecipeHandler extends GenericRecipeHander implements INeiBas
 	public INeiBaseRecipe getNeiBaseRecipe() {
 		return this;
 	}
+	
+	@Override
+	public void loadTransferRects() {
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
+				new Rectangle(44, 20, 25, 20), getNeiBaseRecipe().getRecipeName(), new Object[0]));
+	}
 
 	@Override
 	public void drawBackground(int recipeIndex) {
@@ -80,18 +90,14 @@ public class GrinderRecipeHandler extends GenericRecipeHander implements INeiBas
 				if (grinderRecipe.fluidStack != null) {
 					IIcon fluidIcon = grinderRecipe.fluidStack.getFluid().getIcon();
 					if (fluidIcon != null) {
-//					GuiDraw.drawRect(7, 16, 176, 31, 0);
-//					drawTexturedModalRect(k + 7, l + 15, 176, 31, 20, 55);
 
 						Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-						int liquidHeight = grinderRecipe.fluidStack.amount * 47 / 16000;
-						//DrawUtil.drawRepeated(fluidIcon, 11, 19 + 47 - liquidHeight, 12.0D, liquidHeight, GuiDraw.gui.getZLevel());
 
+						int liquidHeight = grinderRecipe.fluidStack.amount * 100 / 16000;
+						//DrawUtil.drawRepeated(fluidIcon, 7, 22 + 47 - liquidHeight, 14.0D, liquidHeight, GuiDraw.gui.getZLevel());
 
-//					this.mc.renderEngine.bindTexture(texture);
-//					drawTexturedModalRect(k + 11, l + 19, 176, 86, 12, 47);
 					}
-					GuiDraw.drawString(grinderRecipe.fluidStack.amount + "mb of " + grinderRecipe.fluidStack.getLocalizedName(), 14, 124, -1);
+					GuiDraw.drawString(grinderRecipe.fluidStack.amount + "mb of " + grinderRecipe.fluidStack.getLocalizedName(), 14, 135, -1);
 				}
 			}
 		}

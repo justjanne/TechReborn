@@ -18,20 +18,13 @@ public class ModParts {
 			CablePart part = new CablePart(i);
 			ModPartRegistry.registerPart(part);
 		}
-		ModPartRegistry.addProvider(
-				"techreborn.partSystem.QLib.QModPartFactory", "qmunitylib");
+		//ModPartRegistry.addProvider("techreborn.partSystem.QLib.QModPartFactory", "qmunitylib");
 		ModPartRegistry.addProvider("techreborn.partSystem.fmp.FMPFactory",
 				"ForgeMultipart");
 		ModPartRegistry.addAllPartsToSystems();
 		for(IPartProvider provider : ModPartRegistry.providers){
-			if(provider.modID().equals("qmunitylib")){
+			if(provider.modID().equals("ForgeMultipart")){
 				ModPartRegistry.masterProvider = provider;
-			}
-		}
-		for (int i = 0; i < 13; i++) {
-			Item stack = ModPartRegistry.itemParts.get("Cable." + i);
-			if(stack != null){
-				stackCable.put(i, new ItemStack(stack));
 			}
 		}
 	}

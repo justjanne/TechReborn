@@ -7,13 +7,21 @@ package techreborn.partSystem.fmp;
 import java.util.ArrayList;
 import java.util.List;
 
+import codechicken.lib.data.MCDataInput;
+import codechicken.lib.data.MCDataOutput;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import techreborn.lib.Location;
 import techreborn.lib.vecmath.Vecs3d;
 import techreborn.lib.vecmath.Vecs3dCube;
+import techreborn.partSystem.IPartDesc;
 import techreborn.partSystem.ModPart;
+import techreborn.util.LogHelper;
 import uk.co.qmunity.lib.client.render.RenderHelper;
 import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
@@ -25,6 +33,7 @@ import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TSlottedPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import uk.co.qmunity.lib.vec.Vec3i;
 
 public class FMPModPart extends TMultiPart implements TSlottedPart,
         JNormalOcclusion, ISidedHollowConnect {
@@ -172,16 +181,55 @@ public class FMPModPart extends TMultiPart implements TSlottedPart,
     public void onRemoved() {
         iModPart.onRemoved();
         super.onRemoved();
+
     }
 
     @Override
     public boolean renderStatic(Vector3 pos, int pass) {
-        boolean render = false;
-        render = iModPart.renderStatic(new Vecs3d(pos.x, pos.y, pos.z), uk.co.qmunity.lib.client.render.RenderHelper.instance, pass);
-        RenderHelper.instance.resetRenderedSides();
-        RenderHelper.instance.resetTextureRotations();
-        RenderHelper.instance.resetTransformations();
-        RenderHelper.instance.setColor(0xFFFFFF);
-        return render;
+		boolean render;
+		RenderHelper.instance.setRenderCoords(getWorld(), (int) pos.x, (int) pos.y, (int) pos.z);
+		render = iModPart.renderStatic(new Vecs3d((int) pos.x, (int) pos.y, (int) pos.z), RenderHelper.instance, pass);
+		RenderHelper.instance.reset();
+		return render;
+	}
+
+	@Override
+	public Iterable<ItemStack> getDrops() {
+		List<ItemStack> stackArrayList = new ArrayList<ItemStack>();
+		if(iModPart.getItem() != null){
+			stackArrayList.add(iModPart.getItem().copy());
+		} else {
+			LogHelper.error("Part " + iModPart.getName() + " has a null drop");
+		}
+		return stackArrayList;
+	}
+
+
+    @Override
+    public void onPartChanged(TMultiPart part) {
+        super.onPartChanged(part);
+        if (iModPart.world == null || iModPart.location == null) {
+            iModPart.setWorld(world());
+            iModPart.setLocation(new Location(x(), y(), z()));
+        }
+        iModPart.nearByChange();
     }
+
+	@Override
+	public void readDesc(MCDataInput packet) {
+		super.readDesc(packet);
+		if(iModPart instanceof IPartDesc){
+			((IPartDesc) iModPart).readDesc(packet.readNBTTagCompound());
+		}
+	}
+
+	@Override
+	public void writeDesc(MCDataOutput packet) {
+		super.writeDesc(packet);
+		if(iModPart instanceof IPartDesc){
+			NBTTagCompound tagCompound = new NBTTagCompound();
+			((IPartDesc) iModPart).writeDesc(tagCompound);
+			packet.writeNBTTagCompound(tagCompound);
+		}
+	}
 }

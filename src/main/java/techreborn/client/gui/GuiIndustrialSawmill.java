@@ -1,12 +1,17 @@
 package techreborn.client.gui;
 
+import codechicken.lib.gui.GuiDraw;
+//import ic2.core.util.DrawUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import techreborn.client.container.ContainerIndustrialSawmill;
+import techreborn.lib.ModInfo;
 import techreborn.tiles.TileIndustrialSawmill;
 
 public class GuiIndustrialSawmill extends GuiContainer {
@@ -27,11 +32,8 @@ public class GuiIndustrialSawmill extends GuiContainer {
 	
     @Override
     public void initGui() {
-
-        this.buttonList.clear();
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
-        this.buttonList.add(new GuiButton(0, k + 4,  l + 4, 20, 20, "R"));
         super.initGui();
     }
 
@@ -56,16 +58,40 @@ public class GuiIndustrialSawmill extends GuiContainer {
 		if(j > 0) {
 			this.drawTexturedModalRect(k + 33, l + 65 + 12 - j, 176, 12 - j, 14, j + 2);
 		}
+		
+		if (sawmill.tank.getFluidAmount() != 0)
+		{
+			IIcon fluidIcon = sawmill.tank.getFluid().getFluid().getIcon();
+			if (fluidIcon != null)
+			{
+				drawTexturedModalRect(k + 7, l + 15, 176, 31, 20, 55);
+
+				this.mc.renderEngine
+						.bindTexture(TextureMap.locationBlocksTexture);
+				int liquidHeight = sawmill.tank.getFluidAmount() * 47
+						/ sawmill.tank.getCapacity();
+				//DrawUtil.drawRepeated(fluidIcon, k + 11, l + 19 + 47
+				//		- liquidHeight, 12.0D, liquidHeight, this.zLevel);
+
+				this.mc.renderEngine.bindTexture(texture);
+				drawTexturedModalRect(k + 11, l + 19, 176, 86, 12, 47);
+			}
+		}
+		
+        if(sawmill.getMutliBlock() != true)
+        {
+    		GuiDraw.drawTooltipBox(k + 30, l + 50 + 12 - 0, 114, 10);
+    		this.fontRendererObj.drawString(ModInfo.MISSING_MULTIBLOCK, k + 38, l + 52 + 12 - 0, -1);
+        }
 
 	}
 
-	protected void drawGuiContainerForegroundLayer(int p_146979_1_,
-			int p_146979_2_)
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
 		String name = StatCollector.translateToLocal("tile.techreborn.industrialSawmill.name");
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(
-				I18n.format("container.inventory", new Object[0]), 58,
-				this.ySize - 96 + 2, 4210752);
+		I18n.format("container.inventory", new Object[0]), 58,
+		this.ySize - 96 + 2, 4210752);
 	}
 }

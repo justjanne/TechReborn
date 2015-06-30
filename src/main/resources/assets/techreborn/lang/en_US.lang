@@ -53,7 +53,8 @@ tile.techreborn.machineFrame.bronze.name=Brone Machine Hull
 tile.techreborn.machineFrame.brass.name=Brass Machine Hull
 tile.techreborn.machineFrame.steel.name=Steel Machine Hull
 tile.techreborn.machineFrame.titanium.name=Titanium Machine Hull
-tile.techreborn.industrialSawmill.name=Saw Mill
+tile.techreborn.industrialsawmill.name=Saw Mill
+tile.techreborn.chargebench.name=Charge Bench
 
 #Ores
 tile.techreborn.ore.Galena.name=Galena Ore
@@ -126,6 +127,29 @@ tile.techreborn.sodium.name=Sodium Source
 tile.techreborn.sodiumpersulfate.name=Sodiumpersulfate Source
 tile.techreborn.tritium.name=Tritium Source
 tile.techreborn.wolframium.name=Wolframium Source
+fluid.fluid.fluidberylium=Berylium
+fluid.fluid.fluidcalcium=Calcium
+fluid.fluid.fluidcalciumcarbonate=Calciumcarbonate
+fluid.fluid.fluidchlorite=Chlorite
+fluid.fluid.fluiddeuterium=Deuterium
+fluid.fluid.fluidglyceryl=Glyceryl
+fluid.fluid.fluidhelium=Helium
+fluid.fluid.fluidhelium3=Helium3
+fluid.fluid.fluidheliumplasma=Heliumplasma
+fluid.fluid.fluidhydrogen=Hydrogen
+fluid.fluid.fluidlithium=Lithium
+fluid.fluid.fluidmercury=Mercury
+fluid.fluid.fluidmethane=Methane
+fluid.fluid.fluidnitrocoalfuel=Nitrocoalfuel
+fluid.fluid.fluidnitrofuel=Nitrofuel
+fluid.fluid.fluidnitrogen=Nitrogen
+fluid.fluid.fluidnitrogendioxide=Nitrogendioxide
+fluid.fluid.fluidpotassium=Potassium
+fluid.fluid.fluidsilicon=Silicon
+fluid.fluid.fluidsodium=Sodium
+fluid.fluid.fluidsodiumpersulfate=Sodiumpersulfate
+fluid.fluid.fluidtritium=Tritium
+fluid.fluid.fluidwolframium=Wolframium
 
 #Dusts
 item.techreborn.dust.almandine.name=Almandine Dust
@@ -768,3 +792,10 @@ config.techreborn.category.general=General Configs
 config.techreborn.category.world=World Configs
 config.techreborn.category.power=Power Configs
 config.techreborn.category.crafting=Crafting Configs
+config.techreborn.category.uu=UU Configs
+config.techreborn.category.emc=EMC Configs
+
+
+
+#Message
+techreborn.message.missingmultiblock=MISSING MULTIBLOCK

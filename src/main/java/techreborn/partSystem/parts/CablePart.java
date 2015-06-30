@@ -1,9 +1,11 @@
 package techreborn.partSystem.parts;
 
+import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.item.IC2Items;
+import ic2.api.network.INetworkTileEntityEventListener;
 import ic2.core.IC2;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.Map;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -21,14 +24,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import techreborn.client.render.RenderCablePart;
+import techreborn.init.ModParts;
 import techreborn.lib.Functions;
 import techreborn.lib.vecmath.Vecs3d;
 import techreborn.lib.vecmath.Vecs3dCube;
+import techreborn.partSystem.IPartDesc;
 import techreborn.partSystem.ModPart;
 import techreborn.partSystem.ModPartUtils;
 import uk.co.qmunity.lib.client.render.RenderHelper;
 
-public class CablePart extends ModPart implements IEnergyConductor {
+public class CablePart extends ModPart implements IEnergyConductor, INetworkTileEntityEventListener, IPartDesc {
     public Vecs3dCube[] boundingBoxes = new Vecs3dCube[14];
     public float center = 0.6F;
     public float offset = 0.10F;
@@ -37,14 +42,22 @@ public class CablePart extends ModPart implements IEnergyConductor {
     protected ForgeDirection[] dirs = ForgeDirection.values();
     private boolean[] connections = new boolean[6];
     public boolean addedToEnergyNet = false;
+	public ItemStack stack;
+    private boolean hasCheckedSinceStartup;
 
-    public int type = 3;
+    public int type = 0;//TODO save this to nbt and not use the constructor.
 
+	@Deprecated
     public CablePart(int type) {
         this.type = type;
 		refreshBounding();
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
     }
+
+	public CablePart(){
+		this(0);
+	}
+
 
     public void refreshBounding() {
         float centerFirst = center - offset;
@@ -82,12 +95,6 @@ public class CablePart extends ModPart implements IEnergyConductor {
 
     @Override
     public void addCollisionBoxesToList(List<Vecs3dCube> boxes, Entity entity) {
-        if (world != null || location != null) {
-            checkConnectedSides();
-        } else {
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
-        }
-
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             if (connectedSides.containsKey(dir))
                 boxes.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
@@ -98,7 +105,6 @@ public class CablePart extends ModPart implements IEnergyConductor {
     @Override
     public List<Vecs3dCube> getSelectionBoxes() {
         List<Vecs3dCube> vec3dCubeList = new ArrayList<Vecs3dCube>();
-        checkConnectedSides();
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             if (connectedSides.containsKey(dir))
                 vec3dCubeList.add(boundingBoxes[Functions
@@ -122,7 +128,6 @@ public class CablePart extends ModPart implements IEnergyConductor {
 
     @Override
     public void renderDynamic(Vecs3d translation, double delta) {
-
     }
 
     @Override
@@ -132,12 +137,12 @@ public class CablePart extends ModPart implements IEnergyConductor {
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
-
+		writeConnectedSidesToNBT(tag);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
-
+		readFromNBT(tag);
     }
 
     @Override
@@ -153,6 +158,18 @@ public class CablePart extends ModPart implements IEnergyConductor {
 
     @Override
     public void tick() {
+		if(IC2.platform.isSimulating() && !this.addedToEnergyNet) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			this.addedToEnergyNet = true;
+			nearByChange();
+		}
+        if(worldObj != null){
+            if(worldObj.getTotalWorldTime() % 40 == 0 || hasCheckedSinceStartup == false){
+                checkConnectedSides();
+                hasCheckedSinceStartup = true;
+            }
+        }
+
     }
 
     @Override
@@ -163,7 +180,13 @@ public class CablePart extends ModPart implements IEnergyConductor {
     @Override
     public void onAdded() {
         checkConnections(world, getX(), getY(), getZ());
-    }
+		if(IC2.platform.isSimulating()) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			this.addedToEnergyNet = true;
+			nearByChange();
+		}
+        checkConnectedSides();
+	}
 
     @Override
     public void onRemoved() {
@@ -175,7 +198,7 @@ public class CablePart extends ModPart implements IEnergyConductor {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(ModPartUtils.getItemForPart(getName()));
+        return ModParts.stackCable.get(type);
     }
 
     public boolean shouldConnectTo(TileEntity entity, ForgeDirection dir) {
@@ -204,6 +227,9 @@ public class CablePart extends ModPart implements IEnergyConductor {
                  getY(), getZ(), boundingBoxes[d])) {
                 connectedSides.put(dir, te);
                  }
+            }
+            if(te != null){
+                te.getWorldObj().markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
             }
         }
         checkConnections(world, getX(), getY(), getZ());
@@ -477,13 +503,60 @@ public class CablePart extends ModPart implements IEnergyConductor {
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity,
                                      ForgeDirection forgeDirection) {
-        return connectedSides.containsKey(forgeDirection.getOpposite());
+        return connectedSides.containsKey(forgeDirection);
     }
 
     @Override
     public boolean emitsEnergyTo(TileEntity tileEntity,
                                  ForgeDirection forgeDirection) {
-        //This is not called.
-        return connectedSides.containsKey(forgeDirection.getOpposite());
+        return connectedSides.containsKey(forgeDirection);
     }
+
+	@Override
+	public void onNetworkEvent(int i) {
+		switch(i) {
+			case 0:
+				this.worldObj.playSoundEffect((double)((float)this.xCoord + 0.5F), (double)((float)this.yCoord + 0.5F), (double)((float)this.zCoord + 0.5F), "random.fizz", 0.5F, 2.6F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.8F);
+
+				for(int l = 0; l < 8; ++l) {
+					this.worldObj.spawnParticle("largesmoke", (double)this.xCoord + Math.random(), (double)this.yCoord + 1.2D, (double)this.zCoord + Math.random(), 0.0D, 0.0D, 0.0D);
+				}
+
+				return;
+			default:
+				IC2.platform.displayError("An unknown event type was received over multiplayer.\nThis could happen due to corrupted data or a bug.\n\n(Technical information: event ID " + i + ", tile entity below)\n" + "T: " + this + " (" + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + ")");
+		}
+	}
+
+	private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
+
+		NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
+
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			connections[dir.ordinal()] = ourCompound.getBoolean(dir.ordinal()+"");
+		}
+		checkConnectedSides();
+	}
+
+	private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
+
+		NBTTagCompound ourCompound = new NBTTagCompound();
+		int i=0;
+		for(boolean b : connections) {
+			ourCompound.setBoolean(i+"", b);
+			i++;
+		}
+
+		tagCompound.setTag("connectedSides", ourCompound);
+	}
+
+	@Override
+	public void readDesc(NBTTagCompound tagCompound) {
+		readConnectedSidesFromNBT(tagCompound);
+	}
+
+	@Override
+	public void writeDesc(NBTTagCompound tagCompound) {
+		writeConnectedSidesToNBT(tagCompound);
+	}
 }

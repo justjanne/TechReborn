@@ -17,7 +17,7 @@ public class CompatManager {
 
 	public CompatManager() {
 		registerCompact(CompatModuleWaila.class, "Waila");
-		registerCompact(RecipesIC2.class, "IC2");
+		//registerCompact(RecipesIC2.class, "IC2");
 		registerCompact(RecipesBuildcraft.class, "BuildCraft|Core");
 		registerCompact(RecipesThermalExpansion.class, "ThermalExpansion");
 		registerCompact(EmcValues.class, "EE3");

@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import techreborn.api.recipe.IBaseRecipeType;
 import techreborn.api.recipe.RecipeHandler;
-import techreborn.config.ConfigTechReborn;
 import techreborn.util.ItemUtils;
 
 import java.awt.*;
@@ -53,7 +52,7 @@ public abstract class GenericRecipeHander extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return getNeiBaseRecipe().getRecipeName();
+		return RecipeHandler.getUserFreindlyName(getNeiBaseRecipe().getRecipeName());
 	}
 
 	@Override
@@ -76,16 +75,11 @@ public abstract class GenericRecipeHander extends TemplateRecipeHandler {
 		CachedRecipe recipe = arecipes.get(recipeIndex);
 		if (recipe instanceof CachedGenericRecipe) {
 			CachedGenericRecipe genericRecipe = (CachedGenericRecipe) recipe;
-			GuiDraw.drawString(
-					"EU needed: "
-							+ (ConfigTechReborn.CentrifugeInputTick * genericRecipe.recipie
-							.tickTime()), 14, 94, -1);
-			GuiDraw.drawString("Ticks to smelt: "
-							+ genericRecipe.recipie.tickTime(), 14,
-					104, -1);
-			GuiDraw.drawString("Time to smelt: "
-					+ genericRecipe.recipie.tickTime() / 20
-					+ " seconds", 14, 114, -1);
+			float scale = 0.9F;
+			GL11.glScalef(scale, scale, scale);
+			GuiDraw.drawString("EU needed: " + (String.format("%,d", genericRecipe.recipie.euPerTick() * genericRecipe.recipie.tickTime())), 16, 105, -1);
+			GuiDraw.drawString("Ticks to process: "+ genericRecipe.recipie.tickTime(), 14, 115, -1);
+			GuiDraw.drawString("Time to process: " + genericRecipe.recipie.tickTime() / 20 + " seconds", 14, 125, -1);
 		}
 
 	}
@@ -95,10 +89,10 @@ public abstract class GenericRecipeHander extends TemplateRecipeHandler {
 		return 1;
 	}
 
-	public void loadTransferRects() {
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(0, 0, 20, 20), getNeiBaseRecipe().getRecipeName(), new Object[0]));
-	}
+//	public void loadTransferRects() {
+//		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
+//				new Rectangle(0, 0, 20, 20), getNeiBaseRecipe().getRecipeName(), new Object[0]));
+//	}
 
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals(getNeiBaseRecipe().getRecipeName())) {
