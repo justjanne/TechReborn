@@ -5,8 +5,8 @@
   "bytecodeVersion": "1.7",
   "libraries": [
     {
-      "name": "industrialcraft-2-2.2.746-experimental-dev.jar",
-      "url": "http://ic2api.player.to:8080/job/IC2_experimental/746/artifact/build/libs/industrialcraft-2-2.2.746-experimental-dev.jar"
+      "name": "IC2.Classic.Dev.Version.1.0.9.10.jar",
+      "url": "https://github.com/TinyModularThings/IC2Classic/releases/download/1.0.9.10/IC2.Classic.Dev.Version.1.0.9.10.jar"
     },
     {
       "name": "CodeChickenCore-1.7.10-1.0.4.29-dev.jar",

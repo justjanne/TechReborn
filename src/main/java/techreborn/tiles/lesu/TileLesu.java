@@ -83,7 +83,7 @@ public class TileLesu extends TilePowerAcceptor  {//TODO wrench
 	public int getMaxEnergyAmount() {
 		return (5000 * ConfigTechReborn.extraOutputPerLesuBlock) + ConfigTechReborn.baseLesuOutput;
 	}
-	
+
 
 	public double getMaxPower() {
 		return maxStorage;
