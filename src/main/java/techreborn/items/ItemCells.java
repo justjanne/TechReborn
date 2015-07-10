@@ -1,18 +1,12 @@
 package techreborn.items;
 
-import ic2.core.Ic2Items;
-import ic2.core.item.ItemFluidCell;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.init.ModItems;
-import techreborn.util.LogHelper;
 
 import java.util.List;
 

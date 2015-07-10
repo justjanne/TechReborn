@@ -1,5 +1,11 @@
 package erogenousbeef.coreTR.multiblock;
 
+import erogenousbeef.coreTR.common.BeefCoreLog;
+import erogenousbeef.coreTR.common.CoordTriplet;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,12 +13,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import erogenousbeef.coreTR.common.BeefCoreLog;
-import erogenousbeef.coreTR.common.CoordTriplet;
 
 /**
  * This class manages all the multiblock controllers that exist in a given

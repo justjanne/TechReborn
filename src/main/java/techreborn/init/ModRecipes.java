@@ -2,7 +2,6 @@ package techreborn.init;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.IC2Items;
-import ic2.core.Ic2Items;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

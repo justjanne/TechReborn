@@ -6,7 +6,6 @@ import techreborn.compat.minetweaker.MinetweakerCompat;
 import techreborn.compat.recipes.RecipesBiomesOPlenty;
 import techreborn.compat.recipes.RecipesBuildcraft;
 import techreborn.compat.recipes.RecipesForestry;
-import techreborn.compat.recipes.RecipesIC2;
 import techreborn.compat.recipes.RecipesNatura;
 import techreborn.compat.recipes.RecipesThaumcraft;
 import techreborn.compat.recipes.RecipesThermalExpansion;

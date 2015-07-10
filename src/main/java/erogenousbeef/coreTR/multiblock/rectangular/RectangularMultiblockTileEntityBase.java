@@ -1,10 +1,10 @@
 package erogenousbeef.coreTR.multiblock.rectangular;
 
-import net.minecraftforge.common.util.ForgeDirection;
 import erogenousbeef.coreTR.common.CoordTriplet;
 import erogenousbeef.coreTR.multiblock.MultiblockControllerBase;
 import erogenousbeef.coreTR.multiblock.MultiblockTileEntityBase;
 import erogenousbeef.coreTR.multiblock.MultiblockValidationException;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class RectangularMultiblockTileEntityBase extends
 		MultiblockTileEntityBase {

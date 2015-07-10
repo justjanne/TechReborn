@@ -1,18 +1,18 @@
 package erogenousbeef.coreTR.multiblock;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import erogenousbeef.coreTR.common.BeefCoreLog;
+import erogenousbeef.coreTR.common.CoordTriplet;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.IChunkProvider;
-import erogenousbeef.coreTR.common.BeefCoreLog;
-import erogenousbeef.coreTR.common.CoordTriplet;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Base logic class for Multiblock-connected tile entities. Most multiblock

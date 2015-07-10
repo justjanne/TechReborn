@@ -1,9 +1,5 @@
 package techreborn.powerSystem;
 
-import cofh.api.energy.IEnergyReceiver;
-import cpw.mods.fml.common.Optional;
-import ic2.api.energy.tile.IEnergyTile;
-import techreborn.api.power.IEnergyInterfaceTile;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.common.FMLCommonHandler;

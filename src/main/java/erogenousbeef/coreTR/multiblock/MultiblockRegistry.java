@@ -1,10 +1,10 @@
 package erogenousbeef.coreTR.multiblock;
 
+import erogenousbeef.coreTR.common.BeefCoreLog;
+import net.minecraft.world.World;
+
 import java.util.HashMap;
 import java.util.Set;
-
-import net.minecraft.world.World;
-import erogenousbeef.coreTR.common.BeefCoreLog;
 
 /**
  * This is a very static singleton registry class which directs incoming events

@@ -1,7 +1,6 @@
 package techreborn.client.gui;
 
 import codechicken.lib.gui.GuiDraw;
-//import ic2.core.util.DrawUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
@@ -12,6 +11,8 @@ import net.minecraft.util.StatCollector;
 import techreborn.client.container.ContainerGrinder;
 import techreborn.lib.ModInfo;
 import techreborn.tiles.TileGrinder;
+
+//import ic2.core.util.DrawUtil;
 
 public class GuiGrinder extends GuiContainer{
 	

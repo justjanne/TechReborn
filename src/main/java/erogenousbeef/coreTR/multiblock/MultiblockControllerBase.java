@@ -1,16 +1,16 @@
 package erogenousbeef.coreTR.multiblock;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-
+import erogenousbeef.coreTR.common.BeefCoreLog;
+import erogenousbeef.coreTR.common.CoordTriplet;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import erogenousbeef.coreTR.common.BeefCoreLog;
-import erogenousbeef.coreTR.common.CoordTriplet;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * This class contains the base logic for "multiblock controllers".

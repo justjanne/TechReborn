@@ -1,8 +1,7 @@
 package erogenousbeef.coreTR.common;
 
-import org.apache.logging.log4j.Level;
-
 import cpw.mods.fml.common.FMLLog;
+import org.apache.logging.log4j.Level;
 
 public class BeefCoreLog {
 

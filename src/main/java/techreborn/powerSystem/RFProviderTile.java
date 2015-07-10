@@ -7,7 +7,6 @@ import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import techreborn.api.power.IEnergyInterfaceTile;
-import techreborn.lib.Functions;
 import techreborn.tiles.TileMachineBase;
 
 /**

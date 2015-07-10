@@ -26,7 +26,6 @@ import techreborn.init.ModBlocks;
 import techreborn.init.ModFluids;
 import techreborn.init.ModItems;
 import techreborn.init.ModParts;
-import techreborn.init.ModRecipes;
 import techreborn.lib.ModInfo;
 import techreborn.packets.PacketHandler;
 import techreborn.proxies.CommonProxy;
