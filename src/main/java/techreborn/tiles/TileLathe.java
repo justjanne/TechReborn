@@ -13,8 +13,6 @@ import techreborn.api.recipe.RecipeCrafter;
 import techreborn.init.ModBlocks;
 import techreborn.util.Inventory;
 
-import java.util.List;
-
 public class TileLathe extends TileMachineBase implements IWrenchable, IEnergyTile, IInventory, ISidedInventory {
 
 	public int tickTime;
@@ -33,7 +31,7 @@ public class TileLathe extends TileMachineBase implements IWrenchable, IEnergyTi
 		outputs[0] = 1;
 		crafter = new RecipeCrafter("latheRecipe", this, energy, 1, 1, inventory, inputs, outputs);
 	}
-	
+
 	@Override
 	public void updateEntity()
 	{

@@ -5,31 +5,23 @@ import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.tile.IWrenchable;
-import ic2.core.item.ElectricItemManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import techreborn.api.recipe.RecipeCrafter;
-import techreborn.api.upgrade.UpgradeHandler;
-import techreborn.client.hud.ChargeHud;
 import techreborn.init.ModBlocks;
 import techreborn.util.Inventory;
 
-import java.util.List;
-
-public class TileChargeBench extends TileMachineBase implements IWrenchable, IEnergyTile, IInventory {
+public class TileChargeBench extends TileMachineBase implements IWrenchable, IEnergyTile, IInventory, ISidedInventory {
 
 	public BasicSink energy;
 	public Inventory inventory = new Inventory(6, "TileChargeBench", 64);
 	public int capacity = 100000;
-	public int[] chargeSlot = {0, 1, 2, 3, 4, 5};
 	
 	public TileChargeBench(){
-		energy = new BasicSink(this, capacity, 3);
+		energy = new BasicSink(this, capacity, 4);
 	}
 	
 	@Override
@@ -44,11 +36,13 @@ public class TileChargeBench extends TileMachineBase implements IWrenchable, IEn
 			{
 				ItemStack stack = inventory.getStackInSlot(i);
 				double MaxCharge = ((IElectricItem) stack.getItem()).getMaxCharge(stack);
+				double amount = ((IElectricItem) stack.getItem()).getTransferLimit(stack);
 				double CurrentCharge = ElectricItem.manager.getCharge(stack);
-				if(CurrentCharge != MaxCharge)
+				int teir = ((IElectricItem) stack.getItem()).getTier(stack);
+				if(CurrentCharge != MaxCharge && energy.getEnergyStored() >= 0)
 				{
-					ElectricItem.manager.charge(stack, MaxCharge - CurrentCharge, 2, false, false);
-					energy.useEnergy(128);
+					ElectricItem.manager.charge(stack, MaxCharge - CurrentCharge, 3, false, false);
+					energy.useEnergy(amount);
 				}
 			}
 		}
@@ -177,25 +171,34 @@ public class TileChargeBench extends TileMachineBase implements IWrenchable, IEn
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return inventory.isItemValidForSlot(slot, stack);
 	}
+	
+    public int getEnergyScaled(int scale) {
+        return (int)energy.getEnergyStored() * scale / energy.getCapacity();
+    }
 
 	// ISidedInventory 
-//	@Override
-//	public int[] getAccessibleSlotsFromSide(int side)
-//	{
-//        return side == ForgeDirection.DOWN.ordinal() ? new int[]{0, 1, 2} : new int[]{0, 1, 2};
-//	}
-//
-//	@Override
-//	public boolean canInsertItem(int slotIndex, ItemStack itemStack, int side)
-//	{
-//		if (slotIndex == 2)
-//			return false;
-//        return isItemValidForSlot(slotIndex, itemStack);
-//	}
-//
-//	@Override
-//	public boolean canExtractItem(int slotIndex, ItemStack itemStack, int side)
-//	{
-//        return slotIndex == 2;
-//	}
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+        return side == ForgeDirection.DOWN.ordinal() ? new int[]{0, 1, 2, 3, 4, 5} : new int[]{0, 1, 2, 3, 4, 5};
+	}
+
+	@Override
+	public boolean canInsertItem(int slotIndex, ItemStack itemStack, int side)
+	{
+        return isItemValidForSlot(slotIndex, itemStack);
+	}
+
+	@Override
+	public boolean canExtractItem(int slotIndex, ItemStack itemStack, int side)
+	{
+        if(itemStack.getItem() instanceof IElectricItem)
+        {
+			double CurrentCharge = ElectricItem.manager.getCharge(itemStack);
+			double MaxCharge = ((IElectricItem) itemStack.getItem()).getMaxCharge(itemStack);
+			if(CurrentCharge == MaxCharge)
+				return true;
+        }
+        return false;
+	}
 }

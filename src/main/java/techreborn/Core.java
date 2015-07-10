@@ -1,28 +1,5 @@
 package techreborn;
 
-import java.io.File;
-
-import net.minecraftforge.common.MinecraftForge;
-
-import org.apache.commons.lang3.time.StopWatch;
-
-import techreborn.achievement.TRAchievements;
-import techreborn.api.recipe.RecipeHandler;
-import techreborn.client.GuiHandler;
-import techreborn.command.TechRebornDevCommand;
-import techreborn.compat.CompatManager;
-import techreborn.compat.ICompatModule;
-import techreborn.config.ConfigTechReborn;
-import techreborn.init.ModBlocks;
-import techreborn.init.ModFluids;
-import techreborn.init.ModItems;
-import techreborn.init.ModRecipes;
-import techreborn.lib.ModInfo;
-import techreborn.packets.PacketHandler;
-import techreborn.proxies.CommonProxy;
-import techreborn.tiles.idsu.IDSUManager;
-import techreborn.util.LogHelper;
-import techreborn.world.TROreGen;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -36,6 +13,28 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import erogenousbeef.coreTR.multiblock.MultiblockEventHandler;
 import erogenousbeef.coreTR.multiblock.MultiblockServerTickHandler;
+import net.minecraftforge.common.MinecraftForge;
+import org.apache.commons.lang3.time.StopWatch;
+import techreborn.achievement.TRAchievements;
+import techreborn.api.recipe.RecipeHandler;
+import techreborn.client.GuiHandler;
+import techreborn.command.TechRebornDevCommand;
+import techreborn.compat.CompatManager;
+import techreborn.compat.ICompatModule;
+import techreborn.config.ConfigTechReborn;
+import techreborn.init.ModBlocks;
+import techreborn.init.ModFluids;
+import techreborn.init.ModItems;
+import techreborn.init.ModParts;
+import techreborn.init.ModRecipes;
+import techreborn.lib.ModInfo;
+import techreborn.packets.PacketHandler;
+import techreborn.proxies.CommonProxy;
+import techreborn.tiles.idsu.IDSUManager;
+import techreborn.util.LogHelper;
+import techreborn.world.TROreGen;
+
+import java.io.File;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, dependencies = ModInfo.MOD_DEPENDENCUIES, guiFactory = ModInfo.GUI_FACTORY_CLASS)
 public class Core {
@@ -68,6 +67,8 @@ public class Core {
 		ModFluids.init();
 		// Register ModItems
 		ModItems.init();
+		//Multiparts
+		ModParts.init();
 		// Recipes
         StopWatch watch = new StopWatch();
         watch.start();

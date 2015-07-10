@@ -1,9 +1,9 @@
 package techreborn.config;
 
-import java.io.File;
-
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
+
+import java.io.File;
 
 public class ConfigTechReborn {
     private static ConfigTechReborn instance = null;
@@ -73,6 +73,7 @@ public class ConfigTechReborn {
 	public static int extraOutputPerLesuBlock;
 	public static int baseLesuOutput;
 	public static int lesuStoragePerBlock;
+	public static int euPerRF;
     // Charge
     public static int AdvancedDrillCharge;
     public static int LapotronPackCharge;
@@ -591,6 +592,11 @@ public class ConfigTechReborn {
 					StatCollector.translateToLocal("config.techreborn.extraOutputPerLesuBlock"),
 					8,
 					StatCollector.translateToLocal("config.techreborn.extraOutputPerLesuBlock.tooltip"))
+				.getInt();
+		euPerRF = config.get(CATEGORY_POWER,
+				StatCollector.translateToLocal("config.techreborn.euPerRF"),
+				4,
+				StatCollector.translateToLocal("config.techreborn.euPerRF.tooltip"))
 				.getInt();
 
 

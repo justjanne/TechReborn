@@ -1,13 +1,14 @@
-package techreborn.compat.qLib;
+package techreborn.compat.minetweaker;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import minetweaker.MineTweakerAPI;
 import techreborn.compat.ICompatModule;
-import techreborn.init.ModParts;
 
-public class QLib implements ICompatModule {
+
+public class MinetweakerCompat implements ICompatModule {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 
@@ -15,7 +16,7 @@ public class QLib implements ICompatModule {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		ModParts.init();
+		MineTweakerAPI.registerClass(MTAlloySmelter.class);
 	}
 
 	@Override

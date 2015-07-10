@@ -53,6 +53,10 @@ repositories {
         name = 'ThaumCraft 4 API'
         artifactPattern 'https://dl.dropboxusercontent.com/u/47135879/[module](-[classifier])-1.7.10-[revision](.[ext])'
     }
+    ivy {
+        name "MineTweaker3"
+        artifactPattern "http://minetweaker3.powerofbytes.com/download/[module]-[classifier]-[revision].[ext]"
+    }
 }
 
 def ENV = System.getenv()
@@ -103,6 +107,7 @@ dependencies {
     compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.7.10-2.1.0.1283:deobf"
     compile 'Azanor:Thaumcraft:4.2.3.5:deobf@jar'
     compile "com.github.azanor:baubles:1.0.1.10:deobf@jar"
+    compile name: "MineTweaker3", version: "1.7.10-3.0.9C", classifier: "Dev"
 }
 
 
@@ -113,8 +118,8 @@ processResources
                 include 'mcmod.info'
 
                 // replace version and mcversion
-                // ${version}   are the exact strings being replaced
-                expand '@MODVERSION@':project.version
+                // ${version}   and    ${mcversion}    are the exact strings being replaced
+                expand 'version':project.version, 'mcversion':project.minecraft.version
             }
 
             // copy everything else, that's not the mcmod.info
@@ -122,20 +127,23 @@ processResources
                 exclude 'mcmod.info'
             }
         }
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
-    appendix = 'src'
     classifier = 'src'
 }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    appendix = 'dev'
     exclude "**/*.psd"
     classifier = 'dev'
 }
 
 jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'techreborn.asm.LoadingPlugin'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
     exclude "**/*.psd"
     appendix = 'universal'
     classifier = 'universal'
@@ -146,9 +154,7 @@ task apiJar(type: Jar) {
     from sourceSets.main.output
         include 'techreborn/api/**/*'
 
-    appendix = 'api'
     classifier = "api"
-
 }
 
 apiJar.mustRunAfter deobfJar
